@@ -1,103 +1,16 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مغامر الظلال</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background-color: #0d0d0d;
-      color: #f5f5f5;
-      text-align: center;
-    }
-    .container { padding: 40px 20px; }
-    h1 { color: #ffe600; margin-bottom: 20px; }
-    .stats { margin-bottom: 25px; font-size: 14px; }
-    button {
-      background-color: #222;
-      color: #fff;
-      border: 1px solid #555;
-      border-radius: 8px;
-      padding: 12px 20px;
-      margin: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    button:hover { background-color: #333; }
-    #message { margin-top: 30px; font-size: 15px; min-height: 50px; color: #ccc; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Subway Runner</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🕯️ مغامر الظلال</h1>
+    <div id="game-container"></div>
 
-    <div class="stats">
-      اليوم: <span id="day">1</span> |
-      الطاقة: <span id="energy">3</span> ⚡ |
-      النقاط: <span id="points">0</span> 🪙
-    </div>
-
-    <div id="choices">
-      <button onclick="choose('forest')">🌲 استكشف الغابة</button>
-      <button onclick="choose('monster')">👹 واجه الوحش</button>
-      <button onclick="choose('treasure')">💰 ابحث عن الكنز</button>
-    </div>
-
-    <div id="message">ابدأ مغامرتك الآن!</div>
-  </div>
-
-  <script>
-    let state = JSON.parse(localStorage.getItem("shadow_state")) || {
-      day: 1,
-      energy: 3,
-      points: 0
-    };
-
-    updateUI();
-
-    function updateUI() {
-      document.getElementById("day").textContent = state.day;
-      document.getElementById("energy").textContent = state.energy;
-      document.getElementById("points").textContent = state.points;
-    }
-
-    function saveState() {
-      localStorage.setItem("shadow_state", JSON.stringify(state));
-    }
-
-    async function choose(action) {
-      if (state.energy <= 0) {
-        document.getElementById("message").textContent = "انتهت طاقتك! عد غدًا.";
-        return;
-      }
-
-      state.energy -= 1;
-      let msg = "";
-
-      if (action === "forest") {
-        msg = Math.random() > 0.5 ? "عثرت على نبتة سحرية 🌿" : "هاجمتك ذئاب 🐺";
-        state.points += Math.random() > 0.5 ? 5 : 0;
-      } else if (action === "monster") {
-        msg = Math.random() > 0.5 ? "هزمت الوحش! 💪" : "الوحش كان أقوى 😞";
-        state.points += Math.random() > 0.5 ? 10 : -3;
-      } else {
-        msg = Math.random() > 0.5 ? "وجدت كنزًا خفيًا ✨" : "كان المكان خاليًا...";
-        state.points += Math.random() > 0.5 ? 7 : 0;
-      }
-
-      if (state.energy === 0) {
-        state.day += 1;
-        state.energy = 3; // استعادة الطاقة لليوم الجديد
-        msg += " 🌅 يوم جديد بدأ.";
-      }
-
-      saveState();
-      updateUI();
-      document.getElementById("message").textContent = msg;
-    }
-  </script>
+    <!-- Phaser.js -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
